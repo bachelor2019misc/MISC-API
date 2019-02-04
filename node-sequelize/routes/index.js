@@ -12,3 +12,4 @@ const vesselController = require('../controllers').vessel;
 router.get('/api/vessel', vesselController.list);
 router.get('/api/vessel/:id', vesselController.getById);
 router.post('/api/vessel', vesselController.add);
+router.put('/api/vessel/:id', vesselController.update);
