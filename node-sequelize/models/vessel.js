@@ -1,6 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Vessel = sequelize.define('Vessel', {
+    idVessel: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     vesselname: DataTypes.STRING,
     description: DataTypes.STRING,
     hidden: DataTypes.BOOLEAN
