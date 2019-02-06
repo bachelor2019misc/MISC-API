@@ -10,6 +10,7 @@ module.exports = router;
 
 const vesselController = require('../controllers').vessel;
 const imagevesselController = require('../controllers').imagevessel;
+const roomController = require('../controllers').room;
 
 // Vessel controller routes
 router.get('/api/vessel', vesselController.list);
@@ -17,8 +18,14 @@ router.get('/api/vessel/:id', vesselController.getById);
 router.post('/api/vessel', vesselController.add);
 router.put('/api/vessel/:id', vesselController.update);
 
-// Imagevessel controller routers
+// Imagevessel controller routes
 router.get('/api/imagevessel', imagevesselController.list);
 router.get('/api/imagevessel/:id', imagevesselController.getById);
 router.post('/api/imagevessel', imagevesselController.add);
 router.put('/api/imagevessel/:id', imagevesselController.update);
+
+// Room controller routes
+router.get('/api/room', roomController.list);
+router.get('/api/room/:id', roomController.getById);
+router.post('/api/room', roomController.add);
+router.put('/api/room/:id', roomController.update);
