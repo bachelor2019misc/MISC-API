@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('BlueprintDots', {
-      idBlueprintDot: {
+      BlueprintdotId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
