@@ -27,7 +27,10 @@ fs
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
+    console.log("associated")
     db[modelName].associate(db);
+  } else {
+    console.log("Not associated")
   }
 });
 

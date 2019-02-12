@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Blueprint.associate = function(models) {
-    // associations can be defined here
+    Blueprint.hasOne(models.Vessel);
   };
   return Blueprint;
 };
