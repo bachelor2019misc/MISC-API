@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const ImageRoom = sequelize.define('ImageRoom', {
-    name: DataTypes.STRING,
+    ImageRoomName: DataTypes.STRING,
     description: DataTypes.STRING,
     source: DataTypes.BLOB
   }, {});
