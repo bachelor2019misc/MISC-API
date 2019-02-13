@@ -1,18 +1,21 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('BlueprintDots', {
-      BlueprintdotId: {
+    return queryInterface.createTable('ImageBlueprints', {
+      idImageBlueprint: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      xCoordinates: {
-        type: Sequelize.INTEGER
+      ImageBlueprintName: {
+        type: Sequelize.STRING
       },
-      yCoordinates: {
-        type: Sequelize.INTEGER
+      description: {
+        type: Sequelize.STRING
+      },
+      source: {
+        type: Sequelize.BLOB
       },
       createdAt: {
         allowNull: false,
@@ -25,6 +28,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('BlueprintDots');
+    return queryInterface.dropTable('ImageBlueprints');
   }
 };

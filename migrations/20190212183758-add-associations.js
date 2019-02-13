@@ -30,6 +30,22 @@ module.exports = {
           onDelete: 'SET NULL',
         }
       );
+    })
+    .then(() => {
+      // ImageBlueprint hasOne Blueprint
+      return queryInterface.addColumn(
+        'Blueprints', // name of Target model
+        'idImageBlueprint', // name of the key to be added
+        {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'ImageBlueprints', // name of Source model
+            key: 'idImageBlueprint',
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'SET NULL',
+        }
+      );
     });
   },
 
@@ -43,6 +59,13 @@ module.exports = {
       return queryInterface.removeColumn(
         'Vessels', // name of the Target model
         'idBlueprint' // key to remove
+      );
+    })
+    .then(() => {
+      // remove ImageBlueprint hasOne Blueprint
+      return queryInterface.removeColumn(
+        'Blueprints', // name of the Target model
+        'idImageBlueprint' // key to remove
       );
     });
   }

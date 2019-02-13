@@ -1,12 +1,20 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const ImageBlueprint = sequelize.define('ImageBlueprint', {
-    name: DataTypes.STRING,
+    idImageBlueprint: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    ImageBlueprintName: DataTypes.STRING,
     description: DataTypes.STRING,
     source: DataTypes.BLOB
   }, {});
   ImageBlueprint.associate = function(models) {
-    // associations can be defined here
+    ImageBlueprint.hasOne(models.Blueprint, {
+      allowNull: false
+    });
   };
   return ImageBlueprint;
 };

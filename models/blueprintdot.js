@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const BlueprintDot = sequelize.define('BlueprintDot', {
-    BlueprintdotId: {
+    idBlueprintDot: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
@@ -11,7 +11,10 @@ module.exports = (sequelize, DataTypes) => {
     yCoordinates: DataTypes.INTEGER
   }, {});
   BlueprintDot.associate = function(models) {
-    // associations can be defined here
+    BlueprintDot.belongsTo(models.Room);
+    BlueprintDot.belongsToMany(models.Blueprint, {
+      through: 'BlueprintRelationDot'
+    });
   };
   return BlueprintDot;
 };
