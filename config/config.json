@@ -1,23 +1,23 @@
 {
   "development": {
     "username": "postgres",
-    "password": "postgres",
+    "password": "miscstage2019",
     "database": "postgres",
-    "host": "127.0.0.1",
+    "host": "185.181.63.75",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "postgres",
+    "password": "miscstage2019",
     "database": "postgres",
-    "host": "127.0.0.1",
+    "host": "185.181.63.75",
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
-    "password": "postgres",
+    "password": "miscstage2019",
     "database": "postgres",
-    "host": "127.0.0.1",
+    "host": "185.181.63.75",
     "dialect": "postgres"
   }
 }
