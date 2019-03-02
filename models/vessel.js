@@ -7,17 +7,17 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    vesselName: DataTypes.STRING,
+    vesselname: DataTypes.STRING,
     description: DataTypes.STRING,
     hidden: DataTypes.BOOLEAN
   }, {});
   Vessel.associate = function(models) {
-    Vessel.belongsTo(models.ImageVessel, {
+    /*Vessel.belongsTo(models.ImageVessel, {
       allowNull: false
     });
     Vessel.belongsTo(models.Blueprint, {
       allowNull: false
-    });
+    }); */
   };
   return Vessel;
 };

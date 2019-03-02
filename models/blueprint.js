@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Blueprint.associate = function(models) {
-    Blueprint.hasOne(models.Vessel);
+    /*Blueprint.hasOne(models.Vessel);
     Blueprint.belongsTo(models.ImageBlueprint);
     Blueprint.belongsToMany(models.BlueprintDot, {
       through: 'BlueprintRelationDot'
-    });
+    }); */
   };
   return Blueprint;
 };

@@ -12,10 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     source: DataTypes.BLOB
   }, {});
   ImageVessel.associate = function(models) {
-    ImageVessel.hasOne(models.Vessel, {
+   /* ImageVessel.hasOne(models.Vessel, {
       foreignKey: 'idImageVessel',
       allowNull: true
-    });
+    }); */
   };
   return ImageVessel;
 };
