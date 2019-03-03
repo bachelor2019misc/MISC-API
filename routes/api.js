@@ -69,9 +69,10 @@ router.post('/add', function(req, res) {
     if (token) {
       Vessel
         .create({
-         vesselname: req.body.vesselname,
+         title: req.body.title,
          description: req.body.description,
-         hidden: req.body.hidden
+         hidden: req.body.hidden,
+         image: req.body.image
         })
         .then((vessel) => res.status(201).send(vessel))
         .catch((error) => res.status(400).send(error));
