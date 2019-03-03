@@ -73,6 +73,7 @@ router.post('/add', function(req, res) {
          description: req.body.description,
          hidden: req.body.hidden,
          image: req.body.image
+         
         })
         .then((vessel) => res.status(201).send(vessel))
         .catch((error) => res.status(400).send(error));
