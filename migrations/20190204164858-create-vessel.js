@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      vesselname: {
+      title: {
         type: Sequelize.STRING
       },
       description: {
@@ -16,6 +16,9 @@ module.exports = {
       },
       hidden: {
         type: Sequelize.BOOLEAN
+      },
+      image: {
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
