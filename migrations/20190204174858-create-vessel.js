@@ -1,21 +1,24 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('ImageBlueprints', {
-      idImageBlueprint: {
+    return queryInterface.createTable('Vessels', {
+      idVessel: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ImageBlueprintName: {
+      title: {
         type: Sequelize.STRING
       },
       description: {
         type: Sequelize.STRING
       },
-      source: {
-        type: Sequelize.BLOB
+      hidden: {
+        type: Sequelize.BOOLEAN
+      },
+      image: {
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
@@ -28,6 +31,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('ImageBlueprints');
+    return queryInterface.dropTable('Vessels');
   }
 };

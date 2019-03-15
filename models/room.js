@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    roomName: DataTypes.STRING
+    title: DataTypes.STRING,
+    image: DataTypes.TEXT
   }, {});
   Room.associate = function(models) {
     // associations can be defined here
