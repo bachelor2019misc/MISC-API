@@ -3,9 +3,16 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const router = express.Router();
 require('../config/passport')(passport);
+
+// Retrieve models
 const User = require('../models').User;
 const Vessel = require('../models').Vessel;
+const Room = require('../models').Room;
+const Product = require('../models').Product;
+const Blueprint = require('../models').Blueprint;
+const Blueprintdot = require('../models').Blueprintdot;
 
+// Add a user
 router.post('/add', function(req, res) {
     console.log(req.body);
     if (!req.body.username || !req.body.password) {
@@ -24,6 +31,7 @@ router.post('/add', function(req, res) {
     }
   });
 
+  // Login to a registered user
   router.post('/login', function(req, res) {
     User
         .find({
@@ -52,18 +60,7 @@ router.post('/add', function(req, res) {
         .catch((error) => res.status(400).send(error));
   });
 
-  /*router.get('/vessel', passport.authenticate('jwt', { session: false}), function(req, res) {
-    var token = getToken(req.headers);
-    if (token) {
-      Vessel
-        .findAll()
-        .then((vessels) => res.status(200).send(vessels))
-        .catch((error) => { res.status(400).send(error); });
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
-  }); */
-
+  // Add vessel - requires login
   router.post('/vessel', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
     if (token) {
@@ -82,90 +79,176 @@ router.post('/add', function(req, res) {
     }
   });
 
-  router.post('/imagevessel', passport.authenticate('jwt', { session: false}), function(req, res) {
+  // Edit vessel - requires login
+  router.put('/vessel/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
     if (token) {
       Vessel
-        .create({
-         vesselname: req.body.vesselname,
+      .findById(req.params.id)
+      .then(vessel => {
+        if (!vessel) {
+          return res.status(404).send({
+            message: 'Vessel Not Found',
+          });
+        }
+      vessel
+        .update({
+         title: req.body.title,
          description: req.body.description,
-         hidden: req.body.hidden
+         hidden: req.body.hidden,
+         image: req.body.image
+        }, { where: {idVessel: req.params.id}})
+        .then(() => res.status(200).send(vessel))
+        .catch((error) => res.status(400).send(error));
+      })
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
+
+  // Add product - requires login
+  router.post('/product', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      Product
+        .create({
+          title: req.body.title,
+          image: req.body.image
         })
-        .then((vessel) => res.status(201).send(vessel))
+        .then((product) => res.status(201).send(product))
         .catch((error) => res.status(400).send(error));
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
   });
 
-  router.post('/imagevessel', passport.authenticate('jwt', { session: false}), function(req, res) {
+  // Edit product - requires login
+  router.put('/product/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
     if (token) {
-      Vessel
-        .create({
-         vesselname: req.body.vesselname,
-         description: req.body.description,
-         hidden: req.body.hidden
-        })
-        .then((vessel) => res.status(201).send(vessel))
+      Product
+      .findById(req.params.id)
+      .then(product => {
+        if (!product) {
+          return res.status(404).send({
+            message: 'Product Not Found',
+          });
+        }
+      product
+        .update({
+          title: req.body.title,
+          image: req.body.image
+        }, { where: {idProduct: req.params.id}})
+        .then(() => res.status(200).send(product))
         .catch((error) => res.status(400).send(error));
+      })
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
   });
 
+  // Add room - requires login
   router.post('/room', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
     if (token) {
-      Vessel
+      Room
         .create({
-         vesselname: req.body.vesselname,
-         description: req.body.description,
-         hidden: req.body.hidden
+          title: req.body.title,
+          image: req.body.image
         })
-        .then((vessel) => res.status(201).send(vessel))
+        .then((room) => res.status(201).send(room))
         .catch((error) => res.status(400).send(error));
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
   });
 
+  // Edit room - requires login
+  router.put('/room/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      Room
+      .findById(req.params.id)
+      .then(room => {
+        if (!room) {
+          return res.status(404).send({
+            message: 'Room Not Found',
+          });
+        }
+      room
+        .update({
+          title: req.body.title,
+          image: req.body.image
+        }, { where: {idRoom: req.params.id}})
+        .then(() => res.status(200).send(room))
+        .catch((error) => res.status(400).send(error));
+      })
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
+
+  // Add blueprintdot - requires login
   router.post('/blueprintdot', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
     if (token) {
-      Vessel
+      Blueprintdot
         .create({
          vesselname: req.body.vesselname,
          description: req.body.description,
          hidden: req.body.hidden
         })
-        .then((vessel) => res.status(201).send(vessel))
+        .then((blueprintdot) => res.status(201).send(blueprintdot))
         .catch((error) => res.status(400).send(error));
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
   });
 
+  // Add blueprint - requires login
   router.post('/blueprint', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
     if (token) {
-      Vessel
+      Blueprint
         .create({
-         vesselname: req.body.vesselname,
-         description: req.body.description,
-         hidden: req.body.hidden
+          title: req.body.title,
+          description: req.body.description,
+          image: req.body.image
         })
-        .then((vessel) => res.status(201).send(vessel))
+        .then((blueprint) => res.status(201).send(blueprint))
         .catch((error) => res.status(400).send(error));
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
   });
 
+  // Edit blueprint - requires login
+  router.put('/blueprint/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      Blueprint
+      .findById(req.params.id)
+      .then(blueprint => {
+        if (!blueprint) {
+          return res.status(404).send({
+            message: 'Blueprint Not Found',
+          });
+        }
+      blueprint
+        .update({
+          title: req.body.title,
+          image: req.body.image
+        }, { where: {idBlueprint: req.params.id}})
+        .then(() => res.status(200).send(blueprint))
+        .catch((error) => res.status(400).send(error));
+      })
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
 
 
-
-
+  //Retrieve token from the Authorization header
   getToken = function (headers) {
     if (headers && headers.authorization) {
       var parted = headers.authorization.split(' ');

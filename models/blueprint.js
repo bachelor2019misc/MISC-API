@@ -6,7 +6,10 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
-    }
+    },
+    title: DataTypes.STRING,
+    description: DataTypes.STRING,
+    image: DataTypes.TEXT
   }, {});
   Blueprint.associate = function(models) {
     /*Blueprint.hasOne(models.Vessel);
