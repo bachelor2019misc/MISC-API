@@ -17,8 +17,11 @@ module.exports = {
       hidden: {
         type: Sequelize.BOOLEAN
       },
-      image: {
+      imageVessel: {
         type: Sequelize.TEXT
+      },
+      blueprintid: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

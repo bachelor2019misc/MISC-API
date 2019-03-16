@@ -61,7 +61,7 @@ router.post('/add', function(req, res) {
   });
 
   // Add vessel - requires login
-  router.post('/vessel', passport.authenticate('jwt', { session: false}), function(req, res) {
+  /*router.post('/vessel', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
     if (token) {
       Vessel
@@ -77,7 +77,7 @@ router.post('/add', function(req, res) {
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
-  });
+  });*/
 
   // Edit vessel - requires login
   router.put('/vessel/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
@@ -205,18 +205,26 @@ router.post('/add', function(req, res) {
     }
   });
 
-  // Add blueprint - requires login
-  router.post('/blueprint', passport.authenticate('jwt', { session: false}), function(req, res) {
+  // Add blueprint & vessel - requires login
+  router.post('/vessel', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
     if (token) {
       Blueprint
         .create({
-          title: req.body.title,
-          description: req.body.description,
-          image: req.body.image
+          imageBlueprint: req.body.imageBlueprint
         })
-        .then((blueprint) => res.status(201).send(blueprint))
-        .catch((error) => res.status(400).send(error));
+        .then(blueprint => { 
+          Vessel
+        .create({
+         title: req.body.title,
+         description: req.body.description,
+         hidden: req.body.hidden,
+         imageVessel: req.body.imageVessel,
+         blueprintid: blueprint.idBlueprint
+        })
+        .then((vessel) => res.sendStatus(201))
+        .catch((error) => res.sendStatus(400));
+      });      
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
