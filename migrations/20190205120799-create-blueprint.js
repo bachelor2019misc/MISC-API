@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      imageBlueprint: {
+      image: {
         type: Sequelize.TEXT
       },
       createdAt: {

@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    imageBlueprint: DataTypes.TEXT
+    image: DataTypes.TEXT
   }, {});
   Blueprint.associate = function(models) {
     /*Blueprint.hasOne(models.Vessel);

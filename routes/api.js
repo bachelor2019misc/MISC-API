@@ -211,7 +211,7 @@ router.post('/add', function(req, res) {
     if (token) {
       Blueprint
         .create({
-          imageBlueprint: req.body.imageBlueprint
+          image: req.body.imageBlueprint
         })
         .then(blueprint => { 
           Vessel
@@ -219,7 +219,7 @@ router.post('/add', function(req, res) {
          title: req.body.title,
          description: req.body.description,
          hidden: req.body.hidden,
-         imageVessel: req.body.imageVessel,
+         image: req.body.imageVessel,
          blueprintid: blueprint.idBlueprint
         })
         .then((vessel) => res.sendStatus(201))

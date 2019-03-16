@@ -17,7 +17,7 @@ module.exports = {
       hidden: {
         type: Sequelize.BOOLEAN
       },
-      imageVessel: {
+      image: {
         type: Sequelize.TEXT
       },
       blueprintid: {

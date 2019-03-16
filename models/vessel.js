@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     hidden: DataTypes.BOOLEAN,
-    imageVessel: DataTypes.TEXT,
+    image: DataTypes.TEXT,
     blueprintid: DataTypes.INTEGER
   }, {});
   Vessel.associate = function(models) {
