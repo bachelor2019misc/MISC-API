@@ -31,6 +31,31 @@ router.post('/add', function(req, res) {
     }
   });
 
+  // Edit user - requires login
+  router.put('/user/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      User
+      .findById(req.params.id)
+      .then(user => {
+        if (!user) {
+          return res.status(404).send({
+            message: 'User Not Found',
+          });
+        }
+        user
+        .update({
+          username: req.body.username,
+          password: req.body.password
+        }, { where: {id: req.params.id}})
+        .then(() => res.status(200).send(user))
+        .catch((error) => res.status(400).send(error));
+      })
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
+
   // Login to a registered user
   router.post('/login', function(req, res) {
     User
