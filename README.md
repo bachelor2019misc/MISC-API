@@ -1,16 +1,25 @@
 # MISC-API
-Installations required:
+Installations/configurations required:
 
-Sequelize CLI:
-npm install -g sequelize-cli
+# Node.js
+Install node.js:
+https://nodejs.org/en/download/
 
-Sequelize.js:
+# Express/Sequelize
+Use the terminal to install Sequelize add these configurations:
+
+sudo npm install express-generator -g
+sudo npm install -g sequelize-cli
 npm install --save sequelize
-
-PostgreSQL module:
 npm install --save pg pg-hstore
 
-To start program, use npm start or node ./bin/www (definition file of server)
+# Database (PostgreSQL)
+Install PostgreSQL & configure a standard database:
+https://www.postgresql.org/download/
+
+# Other information
+To start program, use "npm start" or "node ./bin/www" (definition file of server)
+
 Database definition: config/config.json
 
 API:
@@ -30,7 +39,7 @@ To populate a database with models, use the following command:
 
 npm run generatedb
 
-Common REST calls:
+#Common REST calls
 
 Create user:
 
