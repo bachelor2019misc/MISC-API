@@ -131,6 +131,31 @@ router.post('/add', function(req, res) {
     }
   });
 
+  //Get blueprint by vesselid (for testing purposes)
+  router.get('/blueprintbyvesselid/:id', passport.authenticate('jwt', { session: false}), function(req, res) { 
+    var token = getToken(req.headers); 
+    if (token) { 
+      Vessel 
+      .findById(req.params.id) 
+      .then(vessel => { 
+        if (!vessel) { 
+          return res.status(404).send({ 
+            message: 'Vessel Not Found', 
+          }); 
+        } 
+      Blueprint.findAll({ 
+        where: { 
+          idBlueprint: vessel.idBlueprint 
+        } 
+      }).then((blueprint) => res.status(200).send(blueprint))
+      .catch((error) => res.status(400).send(error));
+    }) 
+    } else { 
+      return res.status(403).send({success: false, msg: 'Unauthorized.'}); 
+    } 
+  }); 
+ 
+
   // Add product - requires login
   router.post('/product', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
@@ -245,7 +270,7 @@ router.post('/add', function(req, res) {
          description: req.body.description,
          hidden: req.body.hidden,
          image: req.body.imageVessel,
-         blueprintid: blueprint.idBlueprint
+         idBlueprint: blueprint.idBlueprint
         })
         .then((vessel) => res.sendStatus(201))
         .catch((error) => res.sendStatus(400));
