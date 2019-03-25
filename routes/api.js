@@ -10,7 +10,7 @@ const Vessel = require('../models').Vessel;
 const Room = require('../models').Room;
 const Product = require('../models').Product;
 const Blueprint = require('../models').Blueprint;
-const Blueprintdot = require('../models').Blueprintdot;
+const Blueprintdot = require('../models').BlueprintDot;
 
 // Add a user
 router.post('/add', function(req, res) {
@@ -244,9 +244,10 @@ router.post('/add', function(req, res) {
     if (token) {
       Blueprintdot
         .create({
-         vesselname: req.body.vesselname,
-         description: req.body.description,
-         hidden: req.body.hidden
+          xCoordinates: req.body.xCoordinates,
+          yCoordinates: req.body.yCoordinates,
+          idVessel: req.body.idVessel,
+          idRoom: req.body.idRoom
         })
         .then((blueprintdot) => res.status(201).send(blueprintdot))
         .catch((error) => res.status(400).send(error));
@@ -279,6 +280,30 @@ router.post('/add', function(req, res) {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
   });
+
+  //Get all blueprint dots by vesselid
+  router.get('/blueprintdotbyidvessel/:id', passport.authenticate('jwt', { session: false}), function(req, res) { 
+    var token = getToken(req.headers); 
+    if (token) { 
+      Vessel 
+      .findById(req.params.id) 
+      .then(vessel => { 
+        if (!vessel) { 
+          return res.status(404).send({ 
+            message: 'Vessel Not Found', 
+          }); 
+        } 
+      Blueprintdot.findAll({ 
+        where: { 
+          idVessel: req.params.id 
+        } 
+      }).then((blueprintdot) => res.status(200).send(blueprintdot))
+      .catch((error) => res.status(400).send(error));
+    }) 
+    } else { 
+      return res.status(403).send({success: false, msg: 'Unauthorized.'}); 
+    } 
+  }); 
 
   // Edit blueprint - requires login
   router.put('/blueprint/:id', passport.authenticate('jwt', { session: false}), function(req, res) {

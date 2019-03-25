@@ -14,6 +14,12 @@ module.exports = {
       yCoordinates: {
         type: Sequelize.INTEGER
       },
+      idVessel: {
+        type: Sequelize.INTEGER
+      },
+      idRoom: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -8,13 +8,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     xCoordinates: DataTypes.INTEGER,
-    yCoordinates: DataTypes.INTEGER
+    yCoordinates: DataTypes.INTEGER,
+    idVessel: DataTypes.INTEGER,
+    idRoom: DataTypes.INTEGER
+
   }, {});
   BlueprintDot.associate = function(models) {
-    BlueprintDot.belongsTo(models.Room);
-    BlueprintDot.belongsToMany(models.Blueprint, {
-      through: 'BlueprintRelationDot'
-    });
   };
   return BlueprintDot;
 };
