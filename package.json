@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "generatedb": "sequelize db:migrate",
-    "start": "node ./bin/www",
-    "erd": "sequelize-erd --source ./models/index.js --destination ./erd.svg"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "@types/sequelize": "^4.27.34",
