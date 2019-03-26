@@ -33,11 +33,16 @@ router.post('/add', function(req, res) {
   });
 
   // Edit user - requires login
-  router.put('/user/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+  router.put('/user/:username', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
     if (token) {
+      if (req.user.username == req.params.username) {
       User
-      .findById(req.params.id)
+      .find({
+        where: {
+          username : req.params.username
+        }
+      })
       .then(user => {
         if (!user) {
           return res.status(404).send({
@@ -52,6 +57,9 @@ router.post('/add', function(req, res) {
         .then(() => res.status(200).send(user))
         .catch((error) => res.status(400).send(error));
       })
+    } else {
+      return res.status(403).send({success: false, msg: 'You cannot change this user!'});
+    }
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
