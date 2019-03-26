@@ -140,6 +140,32 @@ router.post('/add', function(req, res) {
     }
   });
 
+  // Edit blueprintdot - requires login
+  router.put('/blueprintdot/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      Blueprintdot
+      .findById(req.params.id)
+      .then(blueprintdot => {
+        if (!blueprintdot) {
+          return res.status(404).send({
+            message: 'Blueprintdot Not Found',
+          });
+        }
+        blueprintdot
+        .update({
+         xCoordinates: req.body.xCoordinates,
+         yCoordinates: req.body.yCoordinates,
+         idVessel: req.body.idVessel
+        }, { where: {idBlueprint: req.params.id}})
+        .then(() => res.status(200).send(blueprintdot))
+        .catch((error) => res.status(400).send(error));
+      })
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
+
   //Get blueprint by vesselid (for testing purposes)
   router.get('/blueprintbyvesselid/:id', passport.authenticate('jwt', { session: false}), function(req, res) { 
     var token = getToken(req.headers); 
@@ -221,6 +247,7 @@ router.post('/add', function(req, res) {
       room
         .update({
           title: req.body.title,
+          description: req.body.description,
           image: req.body.image
         }, { where: {idRoom: req.params.id}})
         .then(() => res.status(200).send(room))
