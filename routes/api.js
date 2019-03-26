@@ -238,6 +238,7 @@ router.post('/add', function(req, res) {
       Room
         .create({
           title: req.body.title,
+          description: req.body.description,
           image: req.body.image
         })
         .then((room) => {
