@@ -198,22 +198,6 @@ router.post('/add', function(req, res) {
     }
   });
 
-  // Add room - requires login
-  router.post('/room', passport.authenticate('jwt', { session: false}), function(req, res) {
-    var token = getToken(req.headers);
-    if (token) {
-      Room
-        .create({
-          title: req.body.title,
-          image: req.body.image
-        })
-        .then((room) => res.status(201).send(room))
-        .catch((error) => res.status(400).send(error));
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
-  });
-
   // Edit room - requires login
   router.put('/room/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
@@ -239,19 +223,26 @@ router.post('/add', function(req, res) {
     }
   });
 
-  // Add blueprintdot - requires login
+  // Add blueprintdot & room - requires login
   router.post('/blueprintdot', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
     if (token) {
-      Blueprintdot
+      Room
+        .create({
+          title: req.body.title,
+          image: req.body.image
+        })
+        .then((room) => {
+          Blueprintdot
         .create({
           xCoordinates: req.body.xCoordinates,
           yCoordinates: req.body.yCoordinates,
           idVessel: req.body.idVessel,
-          idRoom: req.body.idRoom
+          idRoom: room.idRoom
         })
-        .then((blueprintdot) => res.status(201).send(blueprintdot))
-        .catch((error) => res.status(400).send(error));
+        .then((vessel) => res.sendStatus(201))
+        .catch((error) => res.sendStatus(400));
+      }); 
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
