@@ -49,6 +49,23 @@ router.post('/add', function(req, res) {
             message: 'User Not Found',
           });
         }
+        if ( req.body.password == "") {
+        user
+        .update({
+          username: req.body.username
+        }, { where: {id: req.params.id}})
+        .then(() => res.status(200).send(user))
+        .catch((error) => res.status(400).send(error));
+      }
+      else if (req.body.username == "") {
+        user
+        .update({
+          password: req.body.password
+        }, { where: {id: req.params.id}})
+        .then(() => res.status(200).send(user))
+        .catch((error) => res.status(400).send(error));
+      }
+      else {
         user
         .update({
           username: req.body.username,
@@ -56,6 +73,7 @@ router.post('/add', function(req, res) {
         }, { where: {id: req.params.id}})
         .then(() => res.status(200).send(user))
         .catch((error) => res.status(400).send(error));
+      }
       })
     } else {
       return res.status(403).send({success: false, msg: 'You cannot change this user!'});
