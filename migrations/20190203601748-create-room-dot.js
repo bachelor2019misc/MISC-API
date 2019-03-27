@@ -1,36 +1,34 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Vessels', {
-      idVessel: {
+    return queryInterface.createTable('RoomDots', {
+      idRoomDot: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
-        type: Sequelize.STRING
+      xCoordinates: {
+        type: Sequelize.INTEGER
       },
-      description: {
-        type: Sequelize.STRING
+      yCoordinates: {
+        type: Sequelize.INTEGER
       },
-      hidden: {
-        type: Sequelize.BOOLEAN
+      idRoom: {
+        type: Sequelize.INTEGER
       },
-      image: {
-        type: Sequelize.TEXT
+      idProduct: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Vessels');
+    return queryInterface.dropTable('RoomDots');
   }
 };
