@@ -303,7 +303,7 @@ router.post('/add', function(req, res) {
   });
 
   //Get all blueprint dots by roomid
-  router.get('/roomdotbyidroom/:id', function(req, res) { 
+  router.get('/blueprintdotbyidroom/:id', function(req, res) { 
       Room 
       .findById(req.params.id) 
       .then(room => { 
@@ -312,14 +312,33 @@ router.post('/add', function(req, res) {
             message: 'Room Not Found', 
           }); 
         } 
-      Roomdot.findAll({
+      Blueprintdot.findAll({
         where: { 
           idRoom: req.params.id 
         } 
-      }).then((roomdot) => res.status(200).send(roomdot))
+      }).then((blueprintdot) => res.status(200).send(blueprintdot))
       .catch((error) => res.status(400).send(error));
     }) 
   });
+
+  //Get all roomdots by roomid
+  router.get('/roomdotbyidroom/:id', function(req, res) { 
+    Room 
+    .findById(req.params.id) 
+    .then(room => { 
+      if (!room) { 
+        return res.status(404).send({ 
+          message: 'Room Not Found', 
+        }); 
+      } 
+    Roomdot.findAll({
+      where: { 
+        idRoom: req.params.id 
+      } 
+    }).then((roomdot) => res.status(200).send(roomdot))
+    .catch((error) => res.status(400).send(error));
+  }) 
+});
 
   // Add blueprint & vessel - requires login
   router.post('/vessel', passport.authenticate('jwt', { session: false}), function(req, res) {
