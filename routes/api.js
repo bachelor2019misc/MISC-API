@@ -198,6 +198,7 @@ router.post('/add', function(req, res) {
       Product
         .create({
           title: req.body.title,
+          description: req.body.description,
           image: req.body.image
         })
         .then((product) => res.status(201).send(product))
@@ -222,6 +223,7 @@ router.post('/add', function(req, res) {
       product
         .update({
           title: req.body.title,
+          description: req.body.description,
           image: req.body.image
         }, { where: {idProduct: req.params.id}})
         .then(() => res.status(200).send(product))
@@ -398,7 +400,6 @@ router.post('/add', function(req, res) {
         }
       blueprint
         .update({
-          title: req.body.title,
           image: req.body.image
         }, { where: {idBlueprint: req.params.id}})
         .then(() => res.status(200).send(blueprint))
