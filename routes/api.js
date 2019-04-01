@@ -9,6 +9,7 @@ const User = require('../models').User;
 const Vessel = require('../models').Vessel;
 const Room = require('../models').Room;
 const Product = require('../models').Product;
+const Subproduct = require('../models').Subproduct;
 const Blueprint = require('../models').Blueprint;
 const Blueprintdot = require('../models').BlueprintDot;
 const Roomdot = require('../models').RoomDot;
@@ -208,6 +209,24 @@ router.post('/add', function(req, res) {
     }
   });
 
+  // Add subproduct - requires login
+  router.post('/subproduct', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      Subproduct
+        .create({
+          title: req.body.title,
+          description: req.body.description,
+          image: req.body.image,
+          idProduct: req.body.idProduct
+        })
+        .then((subproduct) => res.status(201).send(subproduct))
+        .catch((error) => res.status(400).send(error));
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
+
   // Edit product - requires login
   router.put('/product/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
@@ -227,6 +246,33 @@ router.post('/add', function(req, res) {
           image: req.body.image
         }, { where: {idProduct: req.params.id}})
         .then(() => res.status(200).send(product))
+        .catch((error) => res.status(400).send(error));
+      })
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
+  
+  // Edit subproduct - requires login
+  router.put('/subproduct/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      Subproduct
+      .findById(req.params.id)
+      .then(subproduct => {
+        if (!subproduct) {
+          return res.status(404).send({
+            message: 'Product Not Found',
+          });
+        }
+      subproduct
+        .update({
+          title: req.body.title,
+          description: req.body.description,
+          image: req.body.image,
+          idProduct: req.body.idProduct
+        }, { where: {idSubproduct: req.params.id}})
+        .then(() => res.status(200).send(subproduct))
         .catch((error) => res.status(400).send(error));
       })
     } else {

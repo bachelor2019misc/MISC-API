@@ -14,6 +14,7 @@ const roomDotController = require('../controllers').roomdot;
 const blueprintdotController = require('../controllers').blueprintdot;
 const blueprintController = require('../controllers').blueprint;
 const productController = require('../controllers').product;
+const subproductController = require('../controllers').subproduct;
 
 
 // Vessel controller routes
@@ -39,3 +40,7 @@ router.get('/api/product/:id', productController.getById);
 // Roomdot controller routes
 router.get('/api/roomdot', roomDotController.list);
 router.get('/api/roomdot/:id', roomDotController.getById);
+
+// Subproduct controller routes
+router.get('/api/subproduct', subproductController.list);
+router.get('/api/subproduct/:id', subproductController.getById);
