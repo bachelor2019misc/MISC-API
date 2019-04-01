@@ -289,6 +289,25 @@ router.post('/add', function(req, res) {
     }
   });
 
+  // Get subproducts by idProduct
+  router.get('/subproductbyidproduct/:id', function(req, res) { 
+    Product 
+    .findById(req.params.id) 
+    .then(product => { 
+      if (!product) { 
+        return res.status(404).send({ 
+          message: 'Product Not Found', 
+        }); 
+      } 
+    Subproduct.findAll({
+      where: { 
+        idProduct: req.params.id 
+      } 
+    }).then((subproduct) => res.status(200).send(subproduct))
+    .catch((error) => res.status(400).send(error));
+  }) 
+});
+
   // Edit room - requires login
   router.put('/room/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
