@@ -200,7 +200,8 @@ router.post('/add', function(req, res) {
         .create({
           title: req.body.title,
           description: req.body.description,
-          image: req.body.image
+          image: req.body.image,
+          hidden: req.body.hidden
         })
         .then((product) => res.status(201).send(product))
         .catch((error) => res.status(400).send(error));
@@ -217,8 +218,12 @@ router.post('/add', function(req, res) {
         .create({
           title: req.body.title,
           description: req.body.description,
-          image: req.body.image,
-          idProduct: req.body.idProduct
+          idProduct: req.body.idProduct,
+          watt: req.body.watt,
+          kelvin: req.body.kelvin,
+          lumen: req.body.lumen,
+          price: req.body.price
+
         })
         .then((subproduct) => res.status(201).send(subproduct))
         .catch((error) => res.status(400).send(error));
@@ -243,7 +248,8 @@ router.post('/add', function(req, res) {
         .update({
           title: req.body.title,
           description: req.body.description,
-          image: req.body.image
+          image: req.body.image,
+          hidden: req.body.hidden
         }, { where: {idProduct: req.params.id}})
         .then(() => res.status(200).send(product))
         .catch((error) => res.status(400).send(error));
@@ -269,8 +275,11 @@ router.post('/add', function(req, res) {
         .update({
           title: req.body.title,
           description: req.body.description,
-          image: req.body.image,
-          idProduct: req.body.idProduct
+          idProduct: req.body.idProduct,
+          watt: req.body.watt,
+          kelvin: req.body.kelvin,
+          lumen: req.body.lumen,
+          price: req.body.price
         }, { where: {idSubproduct: req.params.id}})
         .then(() => res.status(200).send(subproduct))
         .catch((error) => res.status(400).send(error));
