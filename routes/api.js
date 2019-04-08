@@ -9,6 +9,7 @@ const User = require('../models').User;
 const Vessel = require('../models').Vessel;
 const Room = require('../models').Room;
 const Product = require('../models').Product;
+const Subproduct = require('../models').Subproduct;
 const Blueprint = require('../models').Blueprint;
 const Blueprintdot = require('../models').BlueprintDot;
 const Roomdot = require('../models').RoomDot;
@@ -198,9 +199,33 @@ router.post('/add', function(req, res) {
       Product
         .create({
           title: req.body.title,
-          image: req.body.image
+          description: req.body.description,
+          image: req.body.image,
+          hidden: req.body.hidden
         })
         .then((product) => res.status(201).send(product))
+        .catch((error) => res.status(400).send(error));
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
+
+  // Add subproduct - requires login
+  router.post('/subproduct', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      Subproduct
+        .create({
+          title: req.body.title,
+          description: req.body.description,
+          idProduct: req.body.idProduct,
+          watt: req.body.watt,
+          kelvin: req.body.kelvin,
+          lumen: req.body.lumen,
+          price: req.body.price
+
+        })
+        .then((subproduct) => res.status(201).send(subproduct))
         .catch((error) => res.status(400).send(error));
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
@@ -222,7 +247,9 @@ router.post('/add', function(req, res) {
       product
         .update({
           title: req.body.title,
-          image: req.body.image
+          description: req.body.description,
+          image: req.body.image,
+          hidden: req.body.hidden
         }, { where: {idProduct: req.params.id}})
         .then(() => res.status(200).send(product))
         .catch((error) => res.status(400).send(error));
@@ -231,6 +258,55 @@ router.post('/add', function(req, res) {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
   });
+  
+  // Edit subproduct - requires login
+  router.put('/subproduct/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      Subproduct
+      .findById(req.params.id)
+      .then(subproduct => {
+        if (!subproduct) {
+          return res.status(404).send({
+            message: 'Product Not Found',
+          });
+        }
+      subproduct
+        .update({
+          title: req.body.title,
+          description: req.body.description,
+          idProduct: req.body.idProduct,
+          watt: req.body.watt,
+          kelvin: req.body.kelvin,
+          lumen: req.body.lumen,
+          price: req.body.price
+        }, { where: {idSubproduct: req.params.id}})
+        .then(() => res.status(200).send(subproduct))
+        .catch((error) => res.status(400).send(error));
+      })
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
+
+  // Get subproducts by idProduct
+  router.get('/subproductbyidproduct/:id', function(req, res) { 
+    Product 
+    .findById(req.params.id) 
+    .then(product => { 
+      if (!product) { 
+        return res.status(404).send({ 
+          message: 'Product Not Found', 
+        }); 
+      } 
+    Subproduct.findAll({
+      where: { 
+        idProduct: req.params.id 
+      } 
+    }).then((subproduct) => res.status(200).send(subproduct))
+    .catch((error) => res.status(400).send(error));
+  }) 
+});
 
   // Edit room - requires login
   router.put('/room/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
@@ -303,7 +379,7 @@ router.post('/add', function(req, res) {
   });
 
   //Get all blueprint dots by roomid
-  router.get('/roomdotbyidroom/:id', function(req, res) { 
+  router.get('/blueprintdotbyidroom/:id', function(req, res) { 
       Room 
       .findById(req.params.id) 
       .then(room => { 
@@ -312,14 +388,33 @@ router.post('/add', function(req, res) {
             message: 'Room Not Found', 
           }); 
         } 
-      Roomdot.findAll({
+      Blueprintdot.findAll({
         where: { 
           idRoom: req.params.id 
         } 
-      }).then((roomdot) => res.status(200).send(roomdot))
+      }).then((blueprintdot) => res.status(200).send(blueprintdot))
       .catch((error) => res.status(400).send(error));
     }) 
   });
+
+  //Get all roomdots by roomid
+  router.get('/roomdotbyidroom/:id', function(req, res) { 
+    Room 
+    .findById(req.params.id) 
+    .then(room => { 
+      if (!room) { 
+        return res.status(404).send({ 
+          message: 'Room Not Found', 
+        }); 
+      } 
+    Roomdot.findAll({
+      where: { 
+        idRoom: req.params.id 
+      } 
+    }).then((roomdot) => res.status(200).send(roomdot))
+    .catch((error) => res.status(400).send(error));
+  }) 
+});
 
   // Add blueprint & vessel - requires login
   router.post('/vessel', passport.authenticate('jwt', { session: false}), function(req, res) {
@@ -379,7 +474,6 @@ router.post('/add', function(req, res) {
         }
       blueprint
         .update({
-          title: req.body.title,
           image: req.body.image
         }, { where: {idBlueprint: req.params.id}})
         .then(() => res.status(200).send(blueprint))

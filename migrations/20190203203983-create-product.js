@@ -11,8 +11,14 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
+      description: {
+        type: Sequelize.STRING
+      },
       image: {
         type: Sequelize.TEXT
+      },
+      hidden: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         type: Sequelize.DATE
