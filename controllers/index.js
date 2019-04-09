@@ -5,6 +5,7 @@ const blueprint = require('./blueprint');
 const product = require('./product');
 const roomdot = require('./roomdot');
 const subproduct = require('./subproduct');
+const currency = require('./currency');
 
 module.exports = {
     vessel,
@@ -14,4 +15,5 @@ module.exports = {
     product,
     roomdot,
     subproduct,
+    currency,
 };

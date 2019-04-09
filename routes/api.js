@@ -13,6 +13,7 @@ const Subproduct = require('../models').Subproduct;
 const Blueprint = require('../models').Blueprint;
 const Blueprintdot = require('../models').BlueprintDot;
 const Roomdot = require('../models').RoomDot;
+const Currency = require('../models').Currency;
 
 // Add a user
 router.post('/add', function(req, res) {
@@ -499,6 +500,47 @@ router.post('/add', function(req, res) {
           image: req.body.image
         }, { where: {idBlueprint: req.params.id}})
         .then(() => res.status(200).send(blueprint))
+        .catch((error) => res.status(400).send(error));
+      })
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
+
+  // Add currency - requires login
+  router.post('/currency', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      Currency
+        .create({
+          name: req.body.name,
+          value: req.body.value
+        })
+        .then((currency) => res.status(201).send(currency))
+        .catch((error) => res.status(400).send(error));
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
+
+   // Edit currency - requires login
+   router.put('/currency/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      Currency
+      .findById(req.params.id)
+      .then(currency => {
+        if (!currency) {
+          return res.status(404).send({
+            message: 'Currency Not Found',
+          });
+        }
+      currency
+        .update({
+          name: req.body.name,
+          value: req.body.value
+        }, { where: {idCurrency: req.params.id}})
+        .then(() => res.status(200).send(currency))
         .catch((error) => res.status(400).send(error));
       })
     } else {
