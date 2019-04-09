@@ -20,6 +20,9 @@ module.exports = {
       hidden: {
         type: Sequelize.BOOLEAN
       },
+      link: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         type: Sequelize.DATE
       },
