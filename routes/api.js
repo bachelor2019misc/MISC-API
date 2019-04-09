@@ -219,7 +219,8 @@ router.post('/add', function(req, res) {
           title: req.body.title,
           description: req.body.description,
           image: req.body.image,
-          hidden: req.body.hidden
+          hidden: req.body.hidden,
+          link: req.body.link
         })
         .then((product) => res.status(201).send(product))
         .catch((error) => res.status(400).send(error));
@@ -240,7 +241,8 @@ router.post('/add', function(req, res) {
           watt: req.body.watt,
           kelvin: req.body.kelvin,
           lumen: req.body.lumen,
-          price: req.body.price
+          price: req.body.price,
+          productNumber: req.body.productNumber
 
         })
         .then((subproduct) => res.status(201).send(subproduct))
@@ -267,7 +269,8 @@ router.post('/add', function(req, res) {
           title: req.body.title,
           description: req.body.description,
           image: req.body.image,
-          hidden: req.body.hidden
+          hidden: req.body.hidden,
+          link: req.body.link
         }, { where: {idProduct: req.params.id}})
         .then(() => res.status(200).send(product))
         .catch((error) => res.status(400).send(error));
@@ -297,7 +300,8 @@ router.post('/add', function(req, res) {
           watt: req.body.watt,
           kelvin: req.body.kelvin,
           lumen: req.body.lumen,
-          price: req.body.price
+          price: req.body.price,
+          productNumber: req.body.productNumber
         }, { where: {idSubproduct: req.params.id}})
         .then(() => res.status(200).send(subproduct))
         .catch((error) => res.status(400).send(error));
