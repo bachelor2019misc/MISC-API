@@ -20,6 +20,7 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       symbol: {
+        defaultValue: null,
         type: Sequelize.STRING
       },
       createdAt: {
