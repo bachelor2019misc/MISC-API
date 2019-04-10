@@ -540,6 +540,8 @@ router.post('/add', function(req, res) {
         .catch((error) => res.status(400).send(error));
         return currenc;
     
+      } else {
+        return res.status(403).send({success: false, msg: 'Unauthorized.'});
       }
   }
     catch (err) {
