@@ -510,9 +510,25 @@ router.post('/add', function(req, res) {
   });
 
   // Add currency - requires login
-  router.post('/currency', passport.authenticate('jwt', { session: false}), function(req, res) {
+  router.post('/currency', passport.authenticate('jwt', { session: false}), async(req, res) => {
+   try {
+
     var token = getToken(req.headers);
     if (token) {
+      if (req.body.default == true) {
+        let findObj = await
+        Currency.find({ 
+          where: { 
+            default: true
+          } 
+        }).then(currencyy => {
+          currencyy.update({
+            default: null
+          })
+          })
+        .catch((error) => res.status(400).send(error))
+      }
+      let currenc = await
       Currency
         .create({
           title: req.body.title,
@@ -522,9 +538,14 @@ router.post('/add', function(req, res) {
         })
         .then((currency) => res.status(201).send(currency))
         .catch((error) => res.status(400).send(error));
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+        return currenc;
+    
+      }
+  }
+    catch (err) {
+      return err;
     }
+    
   });
 
 
