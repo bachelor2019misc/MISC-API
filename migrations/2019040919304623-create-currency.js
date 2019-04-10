@@ -8,11 +8,19 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      title: {
         type: Sequelize.STRING
       },
       value: {
         type: Sequelize.FLOAT
+      },
+      default: {
+        defaultValue: null,
+        unique: true,
+        type: Sequelize.BOOLEAN
+      },
+      symbol: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

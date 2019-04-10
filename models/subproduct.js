@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     kelvin: DataTypes.INTEGER,
     lumen: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
-    productNumber: DataTypes.STRING
+    productNumber: DataTypes.STRING,
+    link: DataTypes.STRING
 
 
 

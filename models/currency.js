@@ -7,8 +7,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    name: DataTypes.STRING,
-    value: DataTypes.FLOAT
+    title: DataTypes.STRING,
+    value: DataTypes.FLOAT,
+    default: DataTypes.BOOLEAN,
+    symbol: DataTypes.STRING
   }, {});
   Currency.associate = function(models) {
     // associations can be defined here
