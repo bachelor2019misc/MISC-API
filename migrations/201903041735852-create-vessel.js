@@ -1,8 +1,8 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Currencies', {
-      idCurrency: {
+    return queryInterface.createTable('Vessels', {
+      idVessel: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -11,29 +11,30 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      value: {
-        type: Sequelize.FLOAT
-      },
-      default: {
-        defaultValue: null,
-        unique: true,
-        type: Sequelize.BOOLEAN
-      },
-      symbol: {
-        defaultValue: null,
+      description: {
         type: Sequelize.STRING
       },
+      hidden: {
+        type: Sequelize.BOOLEAN
+      },
+      image: {
+        type: Sequelize.TEXT
+      },
+      idBlueprint: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
-        allowNull: false,
+        type: Sequelize.DATE
+      },
+      deletedAt: {
         type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Currencies');
+    return queryInterface.dropTable('Vessels');
   }
 };

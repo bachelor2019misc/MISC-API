@@ -19,7 +19,9 @@ module.exports = (sequelize, DataTypes) => {
 
 
 
-  }, {});
+  }, {
+    paranoid: true
+  });
   Subproduct.associate = function(models) {
     // associations can be defined here
   };

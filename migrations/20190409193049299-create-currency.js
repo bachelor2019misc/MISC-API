@@ -1,8 +1,8 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Products', {
-      idProduct: {
+    return queryInterface.createTable('Currencies', {
+      idCurrency: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -11,27 +11,32 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.STRING
+      value: {
+        type: Sequelize.FLOAT
       },
-      image: {
-        type: Sequelize.TEXT
-      },
-      hidden: {
+      default: {
+        defaultValue: null,
+        unique: true,
         type: Sequelize.BOOLEAN
       },
-      link: {
+      symbol: {
+        defaultValue: null,
         type: Sequelize.STRING
       },
       createdAt: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      deletedAt: {
         type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Products');
+    return queryInterface.dropTable('Currencies');
   }
 };

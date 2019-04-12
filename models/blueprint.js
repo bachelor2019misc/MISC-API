@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     image: DataTypes.TEXT
-  }, {});
+  }, {
+    paranoid: true
+  });
   Blueprint.associate = function(models) {
     /*Blueprint.hasOne(models.Vessel);
     Blueprint.belongsTo(models.ImageBlueprint);

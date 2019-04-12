@@ -160,6 +160,33 @@ router.post('/add', function(req, res) {
     }
   });
 
+// Delete vessel - requires login
+router.delete('/vessel/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Vessel
+    .findById(req.params.id)
+    .then(vessel => {
+      if (!vessel) {
+        return res.status(404).send({
+          message: 'Vessel Not Found',
+        });
+      }
+      vessel.update({
+        hidden: true
+      }).then(vessel => {
+        vessel
+        .destroy()
+        .then(() => res.status(204).send())
+        .catch((error) => res.status(400).send(error));
+      })
+    })
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+
   // Edit blueprintdot - requires login
   router.put('/blueprintdot/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
@@ -466,6 +493,38 @@ router.post('/add', function(req, res) {
     }
   });
 
+  /* Delete blueprint & vessel - requires login
+router.delete('/vessel/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Vessel
+    .findById(req.params.id) 
+    .then(vessel => {
+      if (!vessel) {
+        return res.status(404).send({
+          message: 'Vessel Not Found',
+        });
+      }
+        Blueprint
+        .findbyId(vessel.idBlueprint)
+        .then(blueprint => {
+          if (!blueprint) {
+            return res.status(404).send({
+              message: 'Blueprint Not Found',
+            });
+          }
+          blueprint
+          .destroy().then(vessel
+            .destroy())
+          .then(() => res.status(204).send())
+      .catch((error) => res.status(400).send(error));
+        } )
+    })
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+}); */
+
   //Get all blueprint dots by vesselid
   router.get('/blueprintdotbyidvessel/:id', function(req, res) { 
       Vessel 
@@ -522,9 +581,12 @@ router.post('/add', function(req, res) {
             default: true
           } 
         }).then(currencyy => {
-          currencyy.update({
-            default: null
-          })
+          if (currencyy != null) {
+            currencyy.update({
+              default: null
+            })
+          }
+          
           })
         .catch((error) => res.status(400).send(error))
       }
@@ -568,29 +630,111 @@ router.post('/add', function(req, res) {
         .catch((error) => res.status(400).send(error));
       }
       Currency
-      .findById(req.params.id)
+      .findById(req.params.id, {paranoid: false})
       .then(currency => {
         if (!currency) {
           return res.status(404).send({
             message: 'Currency Not Found',
           });
         }
-      currency
+          currency
         .update({
           title: req.body.title,
           value: req.body.value,
           default: req.body.default,
-          symbol: req.body.symbol
+          symbol: req.body.symbol,
+          deletedAt: null
 
-        }, { where: {idCurrency: req.params.id}})
+        }, { where: {idCurrency: req.params.id}, paranoid: false})
         .then(() => res.status(200).send(currency))
         .catch((error) => res.status(400).send(error));
+  
       })
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
   });
 
+  // Delete currency - requires login
+router.delete('/currency/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Currency
+    .findById(req.params.id) 
+    .then(currency => {
+      if (!currency) {
+        return res.status(404).send({
+          message: 'Currency Not Found',
+        });
+      }
+    currency
+      .destroy()
+      .then(() => res.status(204).send())
+      .catch((error) => res.status(400).send(error));
+    })
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+/* Delete product & subproduct - requires login
+router.delete('/product/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Product
+    .findById(req.params.id) 
+    .then(product => {
+      if (!product) {
+        return res.status(404).send({
+          message: 'Product Not Found',
+        });
+      }
+        Subproduct
+        .destroy({
+          where: {idProduct: req.params.id}})
+        .then(subproduct => {
+          if (!subproduct) {
+            return res.status(404).send({
+              message: 'Subproduct Not Found',
+            });
+          }
+          product
+          .destroy()
+          .then(() => res.status(204).send())
+      .catch((error) => res.status(400).send(error));
+        } )
+    })
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+}); */
+
+// Delete product - requires login
+router.delete('/product/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Product
+    .findById(req.params.id) 
+    .then(product => {
+      if (!product) {
+        return res.status(404).send({
+          message: 'Product Not Found',
+        });
+      }
+      product.update({
+        hidden: true
+      }).then(product => {
+        product
+        .destroy()
+        .then(() => res.status(204).send())
+    .catch((error) => res.status(400).send(error));
+      })
+          
+    })
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
 
   //Retrieve token from the Authorization header
   getToken = function (headers) {

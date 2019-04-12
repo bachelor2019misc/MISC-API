@@ -11,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
     value: DataTypes.FLOAT,
     default: DataTypes.BOOLEAN,
     symbol: DataTypes.STRING
-  }, {});
+  }, {
+  paranoid: true
+  });
   Currency.associate = function(models) {
     // associations can be defined here
   };
