@@ -12,7 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.TEXT,
     hidden: DataTypes.BOOLEAN,
     link: DataTypes.STRING
-  }, {});
+  }, {
+    paranoid: true
+  });
   Product.associate = function(models) {
     // associations can be defined here
   };

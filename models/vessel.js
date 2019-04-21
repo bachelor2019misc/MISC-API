@@ -12,7 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     hidden: DataTypes.BOOLEAN,
     image: DataTypes.TEXT,
     idBlueprint: DataTypes.INTEGER
-  }, {});
+  }, {
+    paranoid: true
+  });
   Vessel.associate = function(models) {
     /*Vessel.belongsTo(models.ImageVessel, {
       allowNull: false

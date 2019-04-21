@@ -1,8 +1,8 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Subproducts', {
-      idSubproduct: {
+    return queryInterface.createTable('Currencies', {
+      idCurrency: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -11,25 +11,16 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.STRING
+      value: {
+        type: Sequelize.FLOAT
       },
-      idProduct: {
-        type: Sequelize.INTEGER
+      default: {
+        defaultValue: null,
+        unique: true,
+        type: Sequelize.BOOLEAN
       },
-      watt: {
-        type: Sequelize.INTEGER
-      },
-      kelvin: {
-        type: Sequelize.INTEGER
-      },
-      lumen: {
-        type: Sequelize.INTEGER
-      },
-      price: {
-        type: Sequelize.INTEGER
-      },
-      productNumber: {
+      symbol: {
+        defaultValue: null,
         type: Sequelize.STRING
       },
       createdAt: {
@@ -39,10 +30,13 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Subproducts');
+    return queryInterface.dropTable('Currencies');
   }
 };

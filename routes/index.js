@@ -15,6 +15,7 @@ const blueprintdotController = require('../controllers').blueprintdot;
 const blueprintController = require('../controllers').blueprint;
 const productController = require('../controllers').product;
 const subproductController = require('../controllers').subproduct;
+const currencyController = require('../controllers').currency;
 
 
 // Vessel controller routes
@@ -44,3 +45,7 @@ router.get('/api/roomdot/:id', roomDotController.getById);
 // Subproduct controller routes
 router.get('/api/subproduct', subproductController.list);
 router.get('/api/subproduct/:id', subproductController.getById);
+
+// Currency controller routes
+router.get('/api/currency', currencyController.list);
+router.get('/api/currency/:id', currencyController.getById);
