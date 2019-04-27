@@ -4,7 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV;
+env = 'production';
 const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
@@ -27,10 +28,8 @@ fs
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
-    console.log("associated")
     db[modelName].associate(db);
   } else {
-    console.log("Not associated")
   }
 });
 

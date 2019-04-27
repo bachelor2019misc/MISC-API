@@ -114,25 +114,6 @@ router.post('/add', function(req, res) {
         .catch((error) => res.status(400).send(error));
   });
 
-  // Add vessel - requires login
-  /*router.post('/vessel', passport.authenticate('jwt', { session: false}), function(req, res) {
-    var token = getToken(req.headers);
-    if (token) {
-      Vessel
-        .create({
-         title: req.body.title,
-         description: req.body.description,
-         hidden: req.body.hidden,
-         image: req.body.image
-         
-        })
-        .then((vessel) => res.status(201).send(vessel))
-        .catch((error) => res.status(400).send(error));
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
-  });*/
-
   // Edit vessel - requires login
   router.put('/vessel/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
@@ -493,38 +474,6 @@ router.delete('/vessel/:id', passport.authenticate('jwt', { session: false}), fu
     }
   });
 
-  /* Delete blueprint & vessel - requires login
-router.delete('/vessel/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
-  var token = getToken(req.headers);
-  if (token) {
-    Vessel
-    .findById(req.params.id) 
-    .then(vessel => {
-      if (!vessel) {
-        return res.status(404).send({
-          message: 'Vessel Not Found',
-        });
-      }
-        Blueprint
-        .findbyId(vessel.idBlueprint)
-        .then(blueprint => {
-          if (!blueprint) {
-            return res.status(404).send({
-              message: 'Blueprint Not Found',
-            });
-          }
-          blueprint
-          .destroy().then(vessel
-            .destroy())
-          .then(() => res.status(204).send())
-      .catch((error) => res.status(400).send(error));
-        } )
-    })
-  } else {
-    return res.status(403).send({success: false, msg: 'Unauthorized.'});
-  }
-}); */
-
   //Get all blueprint dots by vesselid
   router.get('/blueprintdotbyidvessel/:id', function(req, res) { 
       Vessel 
@@ -676,38 +625,6 @@ router.delete('/currency/:id', passport.authenticate('jwt', { session: false}), 
     return res.status(403).send({success: false, msg: 'Unauthorized.'});
   }
 });
-
-/* Delete product & subproduct - requires login
-router.delete('/product/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
-  var token = getToken(req.headers);
-  if (token) {
-    Product
-    .findById(req.params.id) 
-    .then(product => {
-      if (!product) {
-        return res.status(404).send({
-          message: 'Product Not Found',
-        });
-      }
-        Subproduct
-        .destroy({
-          where: {idProduct: req.params.id}})
-        .then(subproduct => {
-          if (!subproduct) {
-            return res.status(404).send({
-              message: 'Subproduct Not Found',
-            });
-          }
-          product
-          .destroy()
-          .then(() => res.status(204).send())
-      .catch((error) => res.status(400).send(error));
-        } )
-    })
-  } else {
-    return res.status(403).send({success: false, msg: 'Unauthorized.'});
-  }
-}); */
 
 // Delete product - requires login
 router.delete('/product/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
