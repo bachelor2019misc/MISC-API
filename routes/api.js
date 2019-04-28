@@ -1,5 +1,5 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken-refresh');
 const passport = require('passport');
 const router = express.Router();
 require('../config/passport')(passport);
@@ -648,6 +648,19 @@ router.delete('/product/:id', passport.authenticate('jwt', { session: false}), f
       })
           
     })
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+// Extend token expiration - requires login
+router.get('/jwtrefresh', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var originalDecoded = jwt.decode(token, {complete: true});
+    var refreshToken = jwt.refresh(originalDecoded, "2 days", 'nodeauthsecret');
+   res.json({success: true, token: 'JWT ' + refreshToken});
+    
   } else {
     return res.status(403).send({success: false, msg: 'Unauthorized.'});
   }
