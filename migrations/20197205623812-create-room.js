@@ -17,6 +17,9 @@ module.exports = {
       image: {
         type: Sequelize.TEXT
       },
+      hidden: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         type: Sequelize.DATE
       },

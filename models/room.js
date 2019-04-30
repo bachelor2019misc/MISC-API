@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: DataTypes.STRING,
     description: DataTypes.STRING,
-    image: DataTypes.TEXT
+    image: DataTypes.TEXT,
+    hidden: DataTypes.BOOLEAN
   }, {});
   Room.associate = function(models) {
     // associations can be defined here

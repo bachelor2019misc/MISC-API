@@ -357,7 +357,8 @@ router.delete('/vessel/:id', passport.authenticate('jwt', { session: false}), fu
         .update({
           title: req.body.title,
           description: req.body.description,
-          image: req.body.image
+          image: req.body.image,
+          hidden: req.body.hidden
         }, { where: {idRoom: req.params.id}})
         .then(() => res.status(200).send(room))
         .catch((error) => res.status(400).send(error));
@@ -375,7 +376,8 @@ router.delete('/vessel/:id', passport.authenticate('jwt', { session: false}), fu
         .create({
           title: req.body.title,
           description: req.body.description,
-          image: req.body.image
+          image: req.body.image,
+          hidden: req.body.hidden
         })
         .then((room) => {
           Blueprintdot
@@ -410,6 +412,35 @@ router.delete('/vessel/:id', passport.authenticate('jwt', { session: false}), fu
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
   });
+
+  // Edit roomdot - requires login
+  router.put('/roomdot/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+      Roomdot
+      .findById(req.params.id)
+      .then(roomdot => {
+        if (!roomdot) {
+          return res.status(404).send({
+            message: 'Roomdot Not Found',
+          });
+        }
+        roomdot
+        .update({
+          xCoordinates: req.body.xCoordinates,
+          yCoordinates: req.body.yCoordinates,
+          idRoom: req.body.idRoom,
+          idProduct: req.body.idProduct
+        }, { where: {idRoomDot: req.params.id}})
+        .then(() => res.status(200).send(roomdot))
+        .catch((error) => res.status(400).send(error));
+      })
+    } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+  });
+
+  
 
   //Get all blueprint dots by roomid
   router.get('/blueprintdotbyidroom/:id', function(req, res) { 
