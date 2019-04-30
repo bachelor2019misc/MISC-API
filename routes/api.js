@@ -684,6 +684,28 @@ router.delete('/product/:id', passport.authenticate('jwt', { session: false}), f
   }
 });
 
+// Delete roomdot - requires login
+router.delete('/roomdot/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Roomdot
+    .findById(req.params.id) 
+    .then(roomdot => {
+      if (!roomdot) {
+        return res.status(404).send({
+          message: 'Roomdot Not Found',
+        });
+      }
+      roomdot
+      .destroy()
+      .then(() => res.status(204).send())
+      .catch((error) => res.status(400).send(error));
+    })
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
 // Extend token expiration - requires login
 router.get('/jwtrefresh', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
